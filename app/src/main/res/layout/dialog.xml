@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    app:cardCornerRadius="8dp"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:padding="16dp"
@@ -45,28 +47,42 @@
             ></EditText>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_weight="0.33"
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_button_colored"
+                    android:text="Cancel"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    />
+                <!--button tag not changing color so use the tag below//-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_weight="0.33"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/add_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button_colored"
+                    android:text="Add"
+                    android:layout_marginRight="8dp" />
+            </LinearLayout>
+            <!--button tag not changing color so use the tag below//-->
 
-            <Button
-                android:id="@+id/cancel_btn"
-                android:layout_marginLeft="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cancel"
 
-                />
-            <Button
-                android:id="@+id/add_btn"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:layout_marginRight="8dp"
-
-                />
         </RelativeLayout>
+
     </LinearLayout>
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

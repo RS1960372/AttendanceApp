@@ -1,18 +1,22 @@
 package com.example.attendanceapp;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
-    ArrayList<ClassItem> classItems;
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
+    ArrayList<StudentItem> studentItems;
     Context context;
 
     private OnItemClickListener onItemClickListener;
@@ -24,39 +28,65 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         this.onItemClickListener = onItemClickListener;
     }
 
-    public ClassAdapter(Context context, ArrayList<ClassItem> classItems) {
-        this.classItems = classItems;
+    public StudentAdapter(Context context, ArrayList<StudentItem> studentItems) {
+        this.studentItems = studentItems;
         this.context = context;
     }
 
 
-    public static class ClassViewHolder extends RecyclerView.ViewHolder{
-TextView className;
-TextView subjectName;
-        public ClassViewHolder(@NonNull View itemView,OnItemClickListener onItemClickListener) {
+    public static class StudentViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+        TextView roll;
+        TextView name;
+        TextView status;
+        CardView cardView;
+
+
+        public StudentViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            className = itemView.findViewById(R.id.class_tv);
-            subjectName = itemView.findViewById(R.id.subject_tv);
+            roll = itemView.findViewById(R.id.roll);
+            name = itemView.findViewById(R.id.name);
+            status = itemView.findViewById(R.id.status);
+            cardView = itemView.findViewById(R.id.cardview);
             itemView.setOnClickListener(v->onItemClickListener.onClick(getAdapterPosition()));
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(getAdapterPosition(),0,0,"Edit");
+            contextMenu.add(getAdapterPosition(),1,0,"Delete");
         }
     }
 
     @NonNull
     @Override
-    public ClassViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.class_item,parent,false);
-        return new ClassViewHolder(itemView,onItemClickListener);
+    public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.student_item,parent,false);
+        return new StudentViewHolder(itemView,onItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
-        holder.className.setText(classItems.get(position).getClassName());
-        holder.subjectName.setText(classItems.get(position).getSubjectName());
+    public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
+        holder.roll.setText(studentItems.get(position).getRoll()+"");
+        holder.name.setText(studentItems.get(position).getName());
+        holder.status.setText(studentItems.get(position).getStatus());
+        holder.cardView.setCardBackgroundColor(getColor(position));
 
+    }
+
+    private int getColor(int position) {
+        String status = studentItems.get(position).getStatus();
+        if(status.equals("P"))
+            return Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(context,R.color.present)));
+        else if (status.equals("A"))
+            return Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(context,R.color.absent)));
+
+
+        return Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(context,R.color.normal)));
     }
 
     @Override
     public int getItemCount() {
-        return classItems.size();
+        return studentItems.size();
     }
 }
